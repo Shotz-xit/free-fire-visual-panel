@@ -1,16 +1,16 @@
-# Free Fire Visual Panel
+# Free Fire Panel
 
-Pagina visual responsiva feita em HTML, CSS e JavaScript para publicar no GitHub Pages.
+Pagina responsiva feita em HTML, CSS e JavaScript para publicar no GitHub Pages.
 
-Este projeto e somente uma interface demonstrativa. Ele nao contem cheat, aimbot, overlay, modificacao de jogo ou captura de credenciais.
+Este projeto contem uma tela de login com validacao de key e um painel interno responsivo.
 
-A tela de login valida a key em um endpoint Supabase antes de exibir o painel visual. O `device_id` e gerado uma vez no navegador, salvo em `localStorage` e reutilizado nas proximas validacoes.
+A tela de login valida a key em um endpoint Supabase antes de exibir o painel. O `device_id` e gerado uma vez no navegador, salvo em `localStorage` e reutilizado nas proximas validacoes.
 
 ## Arquivos
 
 - `index.html`: estrutura da pagina.
 - `styles.css`: visual neon responsivo.
-- `script.js`: formatacao da key, criacao de `device_id`, chamada do endpoint e exibicao do painel visual.
+- `script.js`: formatacao da key, criacao de `device_id`, chamada do endpoint e exibicao do painel.
 
 ## Publicar no GitHub Pages
 

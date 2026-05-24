@@ -12,8 +12,8 @@ const ENDPOINT =
   "https://rglewxexywrxuqtehfbd.supabase.co/functions/v1/validate-key";
 const ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbGV3eGV4eXdyeHVxdGVoZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NDc0MjIsImV4cCI6MjA5MjAyMzQyMn0.KUxSQUPkrxycH3fw1WQrko73TfcBMpUevqc5TpRUwvA";
-const DEVICE_ID_KEY = "visual_panel_device_id";
-const SESSION_KEY = "visual_panel_session";
+const DEVICE_ID_KEY = "panel_device_id";
+const SESSION_KEY = "panel_session";
 
 function formatKey(value) {
   const clean = value

@@ -342,9 +342,10 @@ input[type="range"] {
 
 .disclaimer {
   margin: 18px 0 0;
-  color: var(--dim);
+  color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.45;
+  text-align: center;
 }
 
 @media (max-width: 380px) {

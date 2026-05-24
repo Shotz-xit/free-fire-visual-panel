@@ -3,20 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Painel de controle responsivo com validacao de key."
-    />
+    <meta name="description" content="Painel de controle responsivo com validacao de key." />
     <meta property="og:title" content="Free Fire Panel" />
-    <meta
-      property="og:description"
-      content="Painel responsivo em HTML, CSS e JavaScript."
-    />
+    <meta property="og:description" content="Painel responsivo em HTML, CSS e JavaScript." />
     <meta property="og:type" content="website" />
     <title>Free Fire Panel</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <canvas id="matrixCanvas" class="matrix hidden" aria-hidden="true"></canvas>
+
     <main class="screen">
       <section class="panel login-panel" id="loginPanel" aria-label="Login do painel">
         <div class="emblem" aria-hidden="true">
@@ -71,7 +67,7 @@
               inputmode="text"
               autocomplete="off"
               placeholder="AUXILIO-XXXX-XXXX-XXXX"
-              maxlength="22"
+              maxlength="23"
             />
           </div>
           <button type="submit" id="accessButton" disabled>Acessar</button>
@@ -81,57 +77,84 @@
         <p class="footer">Todos os direitos reservados - @Pedrinffx</p>
       </section>
 
-      <section class="dashboard hidden" id="dashboard" aria-label="Painel interno">
-        <div class="dashboard-header">
-          <div>
-            <p class="eyebrow">Acesso validado</p>
-            <h2>Painel de Controle</h2>
+      <section class="app-shell hidden" id="dashboard" aria-label="Painel interno">
+        <nav class="side-tabs" aria-label="Abas do painel">
+          <button class="tab-button active" type="button" data-tab="0" aria-label="Principal">◎</button>
+          <button class="tab-button" type="button" data-tab="1" aria-label="Otimizacao">⚡</button>
+          <button class="tab-button" type="button" data-tab="2" aria-label="Injetar">➤</button>
+          <button class="tab-button" type="button" data-tab="3" aria-label="Info">i</button>
+        </nav>
+
+        <div class="control-card">
+          <div class="tab-title" id="tabTitle">AIMBOT</div>
+
+          <div class="tab-page active" data-page="0">
+            <label class="switch-row">
+              <span>Legit</span>
+              <input type="checkbox" />
+            </label>
+            <label class="switch-row">
+              <span>Retirar Input Lag</span>
+              <input type="checkbox" />
+            </label>
+            <label class="switch-row">
+              <span>Precisao</span>
+              <input type="checkbox" />
+            </label>
+            <label class="switch-row">
+              <span>Aimbot</span>
+              <input type="checkbox" />
+            </label>
+            <div class="range-block">
+              <div class="range-head">
+                <span>Regular FOV</span>
+                <strong><span id="fovValue">10</span>°</strong>
+              </div>
+              <input id="fovRange" type="range" min="1" max="20" value="10" />
+            </div>
           </div>
-          <button class="icon-button" id="logoutButton" type="button" aria-label="Sair">
-            <span aria-hidden="true">x</span>
-          </button>
+
+          <div class="tab-page" data-page="1">
+            <label class="switch-row">
+              <span>Otimizar Jogo</span>
+              <input type="checkbox" />
+            </label>
+            <label class="switch-row">
+              <span>Ativar 144 Hz</span>
+              <input type="checkbox" />
+            </label>
+          </div>
+
+          <div class="tab-page" data-page="2">
+            <button class="inject-button" type="button" data-target="FF NORMAL">INJETAR NO FF NORMAL</button>
+            <button class="inject-button" type="button" data-target="FF MAX">INJETAR NO FF MAX</button>
+            <div class="inject-status" id="injectStatus">Aguardando injecao...</div>
+            <div class="terminal hidden" id="terminal">
+              <div class="terminal-head">INJECTION LOG</div>
+              <div class="terminal-lines" id="terminalLines"></div>
+            </div>
+          </div>
+
+          <div class="tab-page" data-page="3">
+            <div class="notice">Use o painel com responsabilidade.</div>
+            <div class="notice">Mantenha o jogo atualizado para melhor compatibilidade.</div>
+            <button class="support-button" type="button">Suporte: (21) 97448-3764</button>
+            <p class="theme-label">Personalizar tema</p>
+            <div class="theme-grid">
+              <button class="theme-swatch red active" type="button" data-theme="red" aria-label="Vermelho"></button>
+              <button class="theme-swatch green" type="button" data-theme="green" aria-label="Verde"></button>
+              <button class="theme-swatch blue" type="button" data-theme="blue" aria-label="Azul"></button>
+              <button class="theme-swatch purple" type="button" data-theme="purple" aria-label="Roxo"></button>
+            </div>
+          </div>
+
+          <footer class="card-footer">
+            <span>Todos os direitos reservados</span>
+            <strong>@Pedrinffx</strong>
+          </footer>
         </div>
 
-        <div class="license">
-          <span>Status</span>
-          <strong id="licenseStatus">Ativo</strong>
-        </div>
-        <div class="license">
-          <span>Validade</span>
-          <strong id="licenseExpiry">--</strong>
-        </div>
-        <div class="license">
-          <span>Dispositivos</span>
-          <strong id="deviceCount">--</strong>
-        </div>
-
-        <div class="visual-grid">
-          <label class="toggle-row">
-            <span>
-              <strong>Modo visual</strong>
-              <small>Controle principal</small>
-            </span>
-            <input type="checkbox" checked />
-          </label>
-          <label class="toggle-row">
-            <span>
-              <strong>Indicadores</strong>
-              <small>Status em tempo real</small>
-            </span>
-            <input type="checkbox" />
-          </label>
-          <label class="range-row">
-            <span>
-              <strong>Sensibilidade</strong>
-              <small>Ajuste do painel</small>
-            </span>
-            <input type="range" min="1" max="100" value="64" />
-          </label>
-        </div>
-
-        <p class="disclaimer">
-          Sessao protegida por key. Mantenha seu acesso em seguranca.
-        </p>
+        <button class="lock-button" id="logoutButton" type="button" aria-label="Sair">🔒</button>
       </section>
     </main>
 

@@ -9,7 +9,7 @@ A tela de login valida a key em um endpoint Supabase antes de exibir o painel. O
 ## Arquivos
 
 - `index.html`: estrutura da pagina.
-- `styles.css`: visual neon responsivo.
+- `styles.css`: tema neon responsivo.
 - `script.js`: formatacao da key, criacao de `device_id`, chamada do endpoint e exibicao do painel.
 
 ## Publicar no GitHub Pages

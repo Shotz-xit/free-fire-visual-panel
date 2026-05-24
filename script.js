@@ -5,15 +5,26 @@ const statusMessage = document.querySelector("#statusMessage");
 const loginPanel = document.querySelector("#loginPanel");
 const dashboard = document.querySelector("#dashboard");
 const logoutButton = document.querySelector("#logoutButton");
-const licenseExpiry = document.querySelector("#licenseExpiry");
-const deviceCount = document.querySelector("#deviceCount");
+const matrixCanvas = document.querySelector("#matrixCanvas");
+const fovRange = document.querySelector("#fovRange");
+const fovValue = document.querySelector("#fovValue");
+const tabTitle = document.querySelector("#tabTitle");
+const tabButtons = [...document.querySelectorAll(".tab-button")];
+const tabPages = [...document.querySelectorAll(".tab-page")];
+const injectButtons = [...document.querySelectorAll(".inject-button")];
+const injectStatus = document.querySelector("#injectStatus");
+const terminal = document.querySelector("#terminal");
+const terminalLines = document.querySelector("#terminalLines");
+const themeButtons = [...document.querySelectorAll(".theme-swatch")];
 
 const ENDPOINT =
   "https://rglewxexywrxuqtehfbd.supabase.co/functions/v1/validate-key";
 const ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbGV3eGV4eXdyeHVxdGVoZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NDc0MjIsImV4cCI6MjA5MjAyMzQyMn0.KUxSQUPkrxycH3fw1WQrko73TfcBMpUevqc5TpRUwvA";
-const DEVICE_ID_KEY = "panel_device_id";
-const SESSION_KEY = "panel_session";
+const DEVICE_ID_KEY = "ff_device_id";
+const SESSION_KEY = "ff_auth_cache";
+const tabNames = ["AIMBOT", "OTIMIZACAO", "INJETAR", "INFO"];
+let matrixTimer;
 
 function formatKey(value) {
   const clean = value
@@ -32,16 +43,21 @@ function getDeviceId() {
   const saved = localStorage.getItem(DEVICE_ID_KEY);
   if (saved) return saved;
 
-  const id =
-    crypto.randomUUID?.() ||
-    `web-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  const seed = `${navigator.userAgent}-${Date.now()}-${Math.random()}`;
+  let hash = 0;
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash << 5) - hash + seed.charCodeAt(index);
+    hash |= 0;
+  }
+
+  const id = `web-${Math.abs(hash).toString(16)}-${Math.random().toString(36).slice(2, 10)}`;
   localStorage.setItem(DEVICE_ID_KEY, id);
   return id;
 }
 
 function getErrorMessage(error, data) {
   const messages = {
-    invalid_payload: "Payload invalido. Confira o formato da key.",
+    invalid_payload: "Formato de key invalido.",
     revoked: "Sua key foi revogada pelo administrador.",
     device_limit: "Essa key ja foi usada no numero maximo de dispositivos.",
     not_found: "Key invalida.",
@@ -52,7 +68,7 @@ function getErrorMessage(error, data) {
     return `${messages.device_limit} (${data.devices_used}/${data.max_devices})`;
   }
 
-  return messages[error] || "Key nao validada. Tente novamente.";
+  return messages[error] || "Erro desconhecido.";
 }
 
 async function validateKey(key) {
@@ -64,7 +80,7 @@ async function validateKey(key) {
       Authorization: `Bearer ${ANON_KEY}`,
     },
     body: JSON.stringify({
-      key,
+      key: key.toUpperCase(),
       device_id: getDeviceId(),
     }),
   });
@@ -81,16 +97,59 @@ async function validateKey(key) {
   };
 }
 
-function formatExpiry(data) {
-  if (data.duration_days === 0) return "Vitalicia";
-  if (!data.expires_at) return "--";
+function setTheme(theme) {
+  const themes = {
+    red: ["#ff0000", "255, 0, 0"],
+    green: ["#00ff00", "0, 255, 0"],
+    blue: ["#00aaff", "0, 170, 255"],
+    purple: ["#ff00ff", "255, 0, 255"],
+  };
+  const selected = themes[theme] || themes.red;
+  document.documentElement.style.setProperty("--primary", selected[0]);
+  document.documentElement.style.setProperty("--primary-rgb", selected[1]);
+  themeButtons.forEach((swatch) => swatch.classList.toggle("active", swatch.dataset.theme === theme));
+}
 
-  const expires = new Date(data.expires_at);
-  return expires.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+function startMatrix() {
+  if (matrixTimer) return;
+
+  const context = matrixCanvas.getContext("2d");
+  const chars =
+    "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモ0123456789";
+  const size = 13;
+  let columns = 0;
+  let drops = [];
+
+  function resize() {
+    matrixCanvas.width = window.innerWidth;
+    matrixCanvas.height = window.innerHeight;
+    columns = Math.floor(matrixCanvas.width / size);
+    drops = Array(columns).fill(1);
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  matrixTimer = setInterval(() => {
+    const color = getComputedStyle(document.documentElement)
+      .getPropertyValue("--primary-rgb")
+      .trim();
+    context.fillStyle = "rgba(7, 7, 14, 0.18)";
+    context.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    context.font = `bold ${size}px monospace`;
+
+    drops.forEach((drop, index) => {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      const x = index * size;
+      context.fillStyle = `rgba(${color}, 0.95)`;
+      context.shadowColor = `rgb(${color})`;
+      context.shadowBlur = 8;
+      context.fillText(char, x, drop * size);
+
+      if (drop * size > matrixCanvas.height && Math.random() > 0.975) drops[index] = 0;
+      drops[index] += 1;
+    });
+  }, 50);
 }
 
 function showDashboard(data, key) {
@@ -98,19 +157,20 @@ function showDashboard(data, key) {
     SESSION_KEY,
     JSON.stringify({
       key,
-      data,
-      validated_at: new Date().toISOString(),
+      ...data,
+      cached_at: new Date().toISOString(),
     }),
   );
 
-  licenseExpiry.textContent = formatExpiry(data);
-  deviceCount.textContent = `${data.devices_used}/${data.max_devices}`;
   loginPanel.classList.add("hidden");
   dashboard.classList.remove("hidden");
+  matrixCanvas.classList.remove("hidden");
+  startMatrix();
 }
 
 function showLogin(message) {
   dashboard.classList.add("hidden");
+  matrixCanvas.classList.add("hidden");
   loginPanel.classList.remove("hidden");
 
   if (message) {
@@ -122,30 +182,63 @@ function showLogin(message) {
 async function submitKey(key) {
   button.disabled = true;
   button.textContent = "Validando...";
-  statusMessage.textContent = "Validando key no servidor...";
+  statusMessage.textContent = "";
   statusMessage.className = "status";
 
   try {
     const result = await validateKey(key);
 
     if (result.ok) {
-      statusMessage.textContent = "";
       showDashboard(result.data, key);
       return;
     }
 
     showLogin(result.message);
   } catch {
-    showLogin("Erro de rede. Key nao validada.");
+    showLogin("Sem conexao. Verifique sua internet.");
   } finally {
     button.textContent = "Acessar";
-    button.disabled = input.value.length !== 22;
+    button.disabled = input.value.length < 7;
   }
+}
+
+function switchTab(index) {
+  tabTitle.textContent = tabNames[index];
+  tabButtons.forEach((tab) => tab.classList.toggle("active", Number(tab.dataset.tab) === index));
+  tabPages.forEach((page) => page.classList.toggle("active", Number(page.dataset.page) === index));
+}
+
+function runInjectionLabel(label) {
+  const lines = [
+    "> Inicializando modulo...",
+    "> Verificando configuracao...",
+    `> Selecionado: ${label}`,
+    "> Aplicando perfil...",
+    "> Status: CONCLUIDO",
+  ];
+
+  terminal.classList.remove("hidden");
+  terminalLines.innerHTML = "";
+  injectStatus.textContent = "Injetando...";
+  injectStatus.classList.add("running");
+
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      const item = document.createElement("div");
+      item.textContent = line;
+      terminalLines.appendChild(item);
+
+      if (index === lines.length - 1) {
+        injectStatus.textContent = "Aguardando injecao...";
+        injectStatus.classList.remove("running");
+      }
+    }, index * 360);
+  });
 }
 
 input.addEventListener("input", () => {
   input.value = formatKey(input.value);
-  button.disabled = input.value.length !== 22;
+  button.disabled = input.value.length < 7;
   statusMessage.textContent = "";
   statusMessage.className = "status";
 });
@@ -160,6 +253,22 @@ logoutButton.addEventListener("click", () => {
   input.value = "";
   button.disabled = true;
   showLogin("");
+});
+
+fovRange.addEventListener("input", () => {
+  fovValue.textContent = fovRange.value;
+});
+
+tabButtons.forEach((tab) => {
+  tab.addEventListener("click", () => switchTab(Number(tab.dataset.tab)));
+});
+
+injectButtons.forEach((injectButton) => {
+  injectButton.addEventListener("click", () => runInjectionLabel(injectButton.dataset.target));
+});
+
+themeButtons.forEach((swatch) => {
+  swatch.addEventListener("click", () => setTheme(swatch.dataset.theme));
 });
 
 window.addEventListener("load", async () => {

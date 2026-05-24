@@ -63,6 +63,10 @@ body {
   text-align: center;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .emblem {
   width: 64px;
   height: 64px;
@@ -212,10 +216,135 @@ button:disabled {
   color: #ffbdc6;
 }
 
+.status.error {
+  color: #ff7b8b;
+}
+
 .footer {
   margin: 20px 0 0;
   color: var(--dim);
   font-size: 0.78rem;
+}
+
+.dashboard {
+  width: min(100%, 420px);
+  padding: 22px;
+  border: 1px solid rgba(255, 16, 40, 0.58);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(18, 22, 32, 0.96), rgba(8, 10, 15, 0.91)),
+    var(--panel);
+  box-shadow:
+    0 0 28px rgba(255, 16, 40, 0.42),
+    inset 0 0 18px rgba(255, 16, 40, 0.08);
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.55rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.icon-button {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.license {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 46px;
+  padding: 0 14px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 16, 40, 0.28);
+  border-radius: 12px;
+  background: rgba(10, 15, 23, 0.68);
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.license strong {
+  color: #ffe4e8;
+  text-align: right;
+}
+
+.visual-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.toggle-row,
+.range-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 66px;
+  margin: 0;
+  padding: 12px 14px;
+  text-align: left;
+  border: 1px solid rgba(255, 16, 40, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 16, 40, 0.05);
+}
+
+.toggle-row strong,
+.range-row strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.toggle-row small,
+.range-row small {
+  display: block;
+  margin-top: 4px;
+  color: var(--dim);
+  font-size: 0.76rem;
+}
+
+input[type="checkbox"] {
+  width: 44px;
+  min-height: 24px;
+  flex: 0 0 auto;
+  accent-color: var(--red);
+}
+
+input[type="range"] {
+  width: 110px;
+  min-height: auto;
+  padding: 0;
+  accent-color: var(--red);
+}
+
+.disclaimer {
+  margin: 18px 0 0;
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 @media (max-width: 380px) {
@@ -226,5 +355,9 @@ button:disabled {
   input,
   button {
     font-size: 0.75rem;
+  }
+
+  .dashboard {
+    padding-inline: 16px;
   }
 }

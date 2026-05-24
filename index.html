@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Interface visual inspirada em painel gamer, feita para demonstração e GitHub Pages."
+      content="Interface visual inspirada em painel gamer, feita para demonstracao e GitHub Pages."
     />
     <meta property="og:title" content="Free Fire Visual Panel" />
     <meta
       property="og:description"
-      content="Página visual responsiva em HTML, CSS e JavaScript."
+      content="Pagina visual responsiva em HTML, CSS e JavaScript."
     />
     <meta property="og:type" content="website" />
     <title>Free Fire Visual Panel</title>
@@ -18,7 +18,7 @@
   </head>
   <body>
     <main class="screen">
-      <section class="panel" aria-label="Painel visual">
+      <section class="panel login-panel" id="loginPanel" aria-label="Login do painel visual">
         <div class="emblem" aria-hidden="true">
           <svg viewBox="0 0 48 48" role="img">
             <path
@@ -79,6 +79,59 @@
         </form>
 
         <p class="footer">Todos os direitos reservados - @Pedrinffx</p>
+      </section>
+
+      <section class="dashboard hidden" id="dashboard" aria-label="Painel interno visual">
+        <div class="dashboard-header">
+          <div>
+            <p class="eyebrow">Acesso validado</p>
+            <h2>Painel Visual</h2>
+          </div>
+          <button class="icon-button" id="logoutButton" type="button" aria-label="Sair">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+
+        <div class="license">
+          <span>Status</span>
+          <strong id="licenseStatus">Ativo</strong>
+        </div>
+        <div class="license">
+          <span>Validade</span>
+          <strong id="licenseExpiry">--</strong>
+        </div>
+        <div class="license">
+          <span>Dispositivos</span>
+          <strong id="deviceCount">--</strong>
+        </div>
+
+        <div class="visual-grid">
+          <label class="toggle-row">
+            <span>
+              <strong>Modo visual</strong>
+              <small>Interface demonstrativa</small>
+            </span>
+            <input type="checkbox" checked />
+          </label>
+          <label class="toggle-row">
+            <span>
+              <strong>Indicadores</strong>
+              <small>Elementos de tela</small>
+            </span>
+            <input type="checkbox" />
+          </label>
+          <label class="range-row">
+            <span>
+              <strong>Sensibilidade visual</strong>
+              <small>Ajuste apenas estetico</small>
+            </span>
+            <input type="range" min="1" max="100" value="64" />
+          </label>
+        </div>
+
+        <p class="disclaimer">
+          Painel apenas demonstrativo. Nenhuma funcao altera jogos, apps ou o sistema.
+        </p>
       </section>
     </main>
 

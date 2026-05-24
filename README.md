@@ -2,13 +2,15 @@
 
 Pagina visual responsiva feita em HTML, CSS e JavaScript para publicar no GitHub Pages.
 
-Este projeto e somente uma interface demonstrativa. Ele nao contem cheat, aimbot, overlay, modificacao de jogo, captura de credenciais ou validacao real de keys.
+Este projeto e somente uma interface demonstrativa. Ele nao contem cheat, aimbot, overlay, modificacao de jogo ou captura de credenciais.
+
+A tela de login valida a key em um endpoint Supabase antes de exibir o painel visual. O `device_id` e gerado uma vez no navegador, salvo em `localStorage` e reutilizado nas proximas validacoes.
 
 ## Arquivos
 
 - `index.html`: estrutura da pagina.
 - `styles.css`: visual neon responsivo.
-- `script.js`: comportamento do campo e simulacao visual do botao.
+- `script.js`: formatacao da key, criacao de `device_id`, chamada do endpoint e exibicao do painel visual.
 
 ## Publicar no GitHub Pages
 

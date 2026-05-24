@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interface visual inspirada em painel gamer, feita para demonstração e GitHub Pages."
+    />
+    <meta property="og:title" content="Free Fire Visual Panel" />
+    <meta
+      property="og:description"
+      content="Página visual responsiva em HTML, CSS e JavaScript."
+    />
+    <meta property="og:type" content="website" />
+    <title>Free Fire Visual Panel</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="screen">
+      <section class="panel" aria-label="Painel visual">
+        <div class="emblem" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path
+              d="M24 5 38 11v10c0 9.8-5.7 17.9-14 22-8.3-4.1-14-12.2-14-22V11L24 5Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.8"
+              stroke-linejoin="round"
+            />
+            <path
+              d="m17 24 4.4 4.3L31 18.6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h1>Free Fire</h1>
+        <p class="subtitle">Auxilio - painel de controle</p>
+
+        <form class="access-box" id="accessForm">
+          <label for="accessKey">Insira sua key de acesso para continuar</label>
+          <div class="field">
+            <span class="key-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M14.5 9.5a4 4 0 1 0-2.4 3.7L14 15h2v2h2v2h3v-3.2l-5.5-5.5c.1-.3.1-.5.1-.8Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7.5 10.5h.01"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <input
+              id="accessKey"
+              name="accessKey"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              placeholder="AUXILIO-XXXX-XXXX-XXXX"
+              maxlength="22"
+            />
+          </div>
+          <button type="submit" id="accessButton" disabled>Acessar</button>
+          <p class="status" id="statusMessage" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="footer">Todos os direitos reservados - @Pedrinffx</p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

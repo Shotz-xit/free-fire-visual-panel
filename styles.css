@@ -1,0 +1,230 @@
+:root {
+  color-scheme: dark;
+  --bg: #050607;
+  --panel: rgba(11, 13, 20, 0.86);
+  --red: #ff1028;
+  --red-soft: rgba(255, 16, 40, 0.34);
+  --text: #f4f6fb;
+  --muted: #a4a7b1;
+  --dim: #676b76;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 16, 40, 0.22), transparent 24rem),
+    radial-gradient(circle at 50% 62%, rgba(17, 23, 32, 0.9), transparent 18rem),
+    linear-gradient(180deg, #030405 0%, #090b0f 48%, #030405 100%);
+  color: var(--text);
+}
+
+.screen {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+  overflow: hidden;
+}
+
+.screen::before,
+.screen::after {
+  content: "";
+  position: fixed;
+  inset: auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 16, 40, 0.28), transparent);
+  pointer-events: none;
+}
+
+.screen::before {
+  top: 20%;
+}
+
+.screen::after {
+  bottom: 18%;
+}
+
+.panel {
+  width: min(100%, 380px);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.emblem {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  color: var(--red);
+  border: 1px solid rgba(255, 16, 40, 0.5);
+  border-radius: 16px;
+  background: rgba(255, 16, 40, 0.05);
+  box-shadow:
+    0 0 22px rgba(255, 16, 40, 0.38),
+    inset 0 0 18px rgba(255, 16, 40, 0.08);
+}
+
+.emblem svg {
+  width: 35px;
+  height: 35px;
+}
+
+h1 {
+  margin: 0;
+  color: var(--red);
+  font-size: clamp(2.25rem, 12vw, 3.05rem);
+  line-height: 0.92;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 22px rgba(255, 16, 40, 0.82);
+}
+
+.subtitle {
+  margin: 12px 0 32px;
+  color: var(--muted);
+  font-size: 0.77rem;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.access-box {
+  width: 100%;
+  padding: 24px 22px 22px;
+  border: 1px solid rgba(255, 16, 40, 0.62);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(18, 22, 32, 0.95), rgba(10, 12, 18, 0.86)),
+    var(--panel);
+  box-shadow:
+    0 0 26px rgba(255, 16, 40, 0.45),
+    inset 0 0 18px rgba(255, 16, 40, 0.08);
+}
+
+label {
+  display: block;
+  margin-bottom: 18px;
+  color: #b9bdc9;
+  font-size: 0.86rem;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.key-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translateY(-50%);
+  color: rgba(255, 16, 40, 0.72);
+}
+
+.key-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+input {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 16px 0 50px;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 16, 40, 0.55);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(10, 15, 23, 0.92);
+  box-shadow: inset 0 0 18px rgba(255, 16, 40, 0.06);
+}
+
+input::placeholder {
+  color: rgba(162, 166, 177, 0.62);
+}
+
+input:focus {
+  border-color: var(--red);
+  box-shadow:
+    0 0 18px rgba(255, 16, 40, 0.28),
+    inset 0 0 18px rgba(255, 16, 40, 0.07);
+}
+
+button {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid rgba(255, 16, 40, 0.72);
+  border-radius: 12px;
+  color: #f6d7db;
+  background: rgba(255, 16, 40, 0.12);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease;
+}
+
+button:enabled:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 16, 40, 0.22);
+  box-shadow: 0 0 20px rgba(255, 16, 40, 0.32);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.status {
+  min-height: 18px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.status.ok {
+  color: #ffbdc6;
+}
+
+.footer {
+  margin: 20px 0 0;
+  color: var(--dim);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 380px) {
+  .access-box {
+    padding-inline: 16px;
+  }
+
+  input,
+  button {
+    font-size: 0.75rem;
+  }
+}
